@@ -362,13 +362,39 @@ async function endInterview() {
 }
 
 // Show feedback page
+// Show feedback page
 function showFeedback(feedback) {
     clearInterval(timerInterval);
     
     interviewPage.style.display = 'none';
     feedbackPage.style.display = 'block';
     
-    document.getElementById('feedbackContent').textContent = feedback;
+    // Parse and structure the feedback
+    const feedbackContainer = document.getElementById('feedbackContent');
+    feedbackContainer.innerHTML = formatFeedback(feedback);
+}
+
+// Format feedback with better structure
+function formatFeedback(feedback) {
+    // Try to parse structured sections from feedback
+    const sections = [];
+    
+    // Overall Performance section
+    sections.push({
+        icon: '🎯',
+        title: 'Overall Performance',
+        content: feedback
+    });
+    
+    return sections.map(section => `
+        <div class="feedback-section">
+            <div class="feedback-section-header">
+                <div class="feedback-icon">${section.icon}</div>
+                <h3>${section.title}</h3>
+            </div>
+            <div class="feedback-text">${escapeHtml(section.content)}</div>
+        </div>
+    `).join('');
 }
 
 // Download transcript
